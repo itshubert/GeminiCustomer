@@ -13,5 +13,9 @@ public static partial class Errors
         public static Error InvalidCustomerId => Error.Validation(
             code: "Customer.InvalidId",
             description: "The provided customer ID is invalid.");
+
+        public static Error EmailAlreadyExists => Error.Conflict(
+            code: "Customer.EmailAlreadyExists",
+            description: "A customer with the provided email already exists.");
     }
 }

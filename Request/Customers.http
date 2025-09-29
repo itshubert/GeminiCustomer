@@ -1,3 +1,14 @@
 @HostAddress=https://localhost:4005
 
-GET {{HostAddress}}/customers/6a16289f-74aa-41a5-b859-e3d5a2d3cbdc
+GET {{HostAddress}}/customers/22847b23-c97b-4e8d-90a9-66c1e805465b
+
+###
+
+POST {{HostAddress}}/customers
+Content-Type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com"
+}

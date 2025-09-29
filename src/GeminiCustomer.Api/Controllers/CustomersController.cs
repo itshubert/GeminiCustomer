@@ -1,3 +1,4 @@
+using GeminiCustomer.Contracts;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,25 @@ public sealed class CustomersController : ApiController
         var result = await Mediator.Send(query);
 
         return result.Match(
-            customer => Ok(Mapper.Map<Contracts.CustomerResponse>(customer)),
+            customer => Ok(Mapper.Map<CustomerResponse>(customer)),
             errors => Problem(errors));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request)
+    {
+        var command = Mapper.Map<Application.Customers.Commands.CreateCustomerCommand>(request);
+        var result = await Mediator.Send(command);
+
+        return result.Match(
+            customer =>
+            {
+                var customerResponse = Mapper.Map<CustomerResponse>(customer);
+                return CreatedAtAction(
+                    nameof(GetCustomerById),
+                    new { customerId = customerResponse.Id },
+                    customerResponse);
+            },
+            Problem);
     }
 }

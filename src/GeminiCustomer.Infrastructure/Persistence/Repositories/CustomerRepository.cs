@@ -20,8 +20,16 @@ public sealed class CustomerRepository : BaseRepository, ICustomerRepository
 
     }
 
+    public async Task<Customer?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return await _context.Customers
+            .Include(c => c.Addresses)
+            .FirstOrDefaultAsync(c => c.Email == email, cancellationToken);
+    }
+
     public async Task AddAsync(Customer customer, CancellationToken cancellationToken = default)
     {
         await _context.Customers.AddAsync(customer, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

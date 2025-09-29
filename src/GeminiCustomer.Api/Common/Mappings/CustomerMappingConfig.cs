@@ -1,4 +1,5 @@
 using GeminiCustomer.Application.Common.Models.Customers;
+using GeminiCustomer.Application.Customers.Commands;
 using GeminiCustomer.Contracts;
 using Mapster;
 
@@ -10,6 +11,9 @@ public sealed class CustomerMappingConfig : IRegister
     {
         config.NewConfig<CustomerModel, CustomerResponse>()
             .Map(dest => dest.Addresses, src => src.Addresses.Adapt<IEnumerable<AddressResponse>>())
+            .Map(dest => dest, src => src);
+
+        config.NewConfig<CreateCustomerRequest, CreateCustomerCommand>()
             .Map(dest => dest, src => src);
     }
 }
