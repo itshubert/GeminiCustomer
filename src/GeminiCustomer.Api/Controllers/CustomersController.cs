@@ -1,3 +1,4 @@
+using GeminiCustomer.Application.Customers.Commands;
 using GeminiCustomer.Contracts;
 using MapsterMapper;
 using MediatR;
@@ -38,6 +39,17 @@ public sealed class CustomersController : ApiController
                     new { customerId = customerResponse.Id },
                     customerResponse);
             },
+            Problem);
+    }
+
+    [HttpPost("{customerId:guid}/addresses")]
+    public async Task<IActionResult> AddAddress(Guid customerId, [FromBody] CreateAddressRequest request)
+    {
+        var command = Mapper.Map<AddAddressCommand>(request) with { CustomerId = customerId };
+        var result = await Mediator.Send(command);
+
+        return result.Match(
+            address => Ok(Mapper.Map<AddressResponse>(address)),
             Problem);
     }
 }

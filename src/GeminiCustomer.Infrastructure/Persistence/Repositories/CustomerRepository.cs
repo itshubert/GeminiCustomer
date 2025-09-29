@@ -32,4 +32,10 @@ public sealed class CustomerRepository : BaseRepository, ICustomerRepository
         await _context.Customers.AddAsync(customer, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task UpdateAsync(Customer customer, CancellationToken cancellationToken = default)
+    {
+        _context.Customers.Update(customer);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

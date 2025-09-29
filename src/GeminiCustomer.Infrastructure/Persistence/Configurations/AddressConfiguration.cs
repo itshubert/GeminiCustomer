@@ -1,5 +1,4 @@
-using GeminiCustomer.Domain.Addresses;
-using GeminiCustomer.Domain.Addresses.ValueObjects;
+using GeminiCustomer.Domain.Customers.Entities;
 using GeminiCustomer.Domain.Customers.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -47,6 +46,10 @@ public sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder.Property(a => a.Country)
             .IsRequired()
             .HasMaxLength(50);
+
+        builder.Property(a => a.IsDefault)
+            .IsRequired()
+            .HasDefaultValue(false);
 
         builder.Property(a => a.CreatedAt)
             .IsRequired();

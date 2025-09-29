@@ -1,11 +1,10 @@
 using ErrorOr;
-using GeminiCustomer.Domain.Addresses.ValueObjects;
 using GeminiCustomer.Domain.Common.Models;
 using GeminiCustomer.Domain.Customers.ValueObjects;
 
-namespace GeminiCustomer.Domain.Addresses;
+namespace GeminiCustomer.Domain.Customers.Entities;
 
-public sealed class Address : AggregateRoot<AddressId>
+public sealed class Address : Entity<AddressId>
 {
     public CustomerId CustomerId { get; private set; }
     public string AddressLine1 { get; private set; }
@@ -14,6 +13,7 @@ public sealed class Address : AggregateRoot<AddressId>
     public string State { get; private set; }
     public string PostCode { get; private set; }
     public string Country { get; private set; }
+    public bool IsDefault { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? UpdatedAt { get; private set; }
 
@@ -26,6 +26,7 @@ public sealed class Address : AggregateRoot<AddressId>
         string state,
         string postCode,
         string country,
+        bool isDefault,
         DateTimeOffset createdAt,
         DateTimeOffset? updatedAt)
         : base(id)
@@ -50,6 +51,7 @@ public sealed class Address : AggregateRoot<AddressId>
         string state,
         string postCode,
         string country,
+        bool isDefault,
         DateTimeOffset? createdAt,
         DateTimeOffset? updatedAt)
     {
@@ -134,8 +136,20 @@ public sealed class Address : AggregateRoot<AddressId>
             state,
             postCode,
             country,
+            isDefault,
             createdAt ?? DateTimeOffset.UtcNow,
             updatedAt);
     }
 
+    public void SetAsDefault()
+    {
+        IsDefault = true;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void UnsetDefault()
+    {
+        IsDefault = false;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
 }

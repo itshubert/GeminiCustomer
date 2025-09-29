@@ -1,3 +1,4 @@
+using GeminiCustomer.Application.Common.Models.Addresses;
 using GeminiCustomer.Application.Common.Models.Customers;
 using GeminiCustomer.Application.Customers.Commands;
 using GeminiCustomer.Contracts;
@@ -14,6 +15,12 @@ public sealed class CustomerMappingConfig : IRegister
             .Map(dest => dest, src => src);
 
         config.NewConfig<CreateCustomerRequest, CreateCustomerCommand>()
+            .Map(dest => dest, src => src);
+
+        config.NewConfig<AddressModel, AddressResponse>()
+            .Map(dest => dest, src => src);
+
+        config.NewConfig<CreateAddressRequest, AddAddressCommand>()
             .Map(dest => dest, src => src);
     }
 }

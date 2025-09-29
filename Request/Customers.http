@@ -12,3 +12,18 @@ Content-Type: application/json
     "lastName": "Doe",
     "email": "john.doe@example.com"
 }
+
+### ADDRESS
+
+POST {{HostAddress}}/customers/dd2ce6bc-4a68-48be-b9af-06ec937970b7/addresses
+Content-Type: application/json
+
+{
+    "addressLine1": "123 Main St",
+    "addressLine2": "Apt 4B",
+    "city": "New York",
+    "state": "NY",
+    "postCode": "10001",
+    "country": "USA",
+    "isDefault": true
+}

@@ -1,6 +1,6 @@
 using GeminiCustomer.Domain.Common.Models;
 
-namespace GeminiCustomer.Domain.Addresses.ValueObjects;
+namespace GeminiCustomer.Domain.Customers.ValueObjects;
 
 public sealed class AddressId : ValueObject
 {

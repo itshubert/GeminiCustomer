@@ -1,5 +1,5 @@
 using GeminiCustomer.Application.Common.Models.Addresses;
-using GeminiCustomer.Domain.Addresses;
+using GeminiCustomer.Domain.Customers.Entities;
 using Mapster;
 
 namespace GeminiCustomer.Application.Common.Mappings;
