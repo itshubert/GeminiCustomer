@@ -1,5 +1,7 @@
+using GeminiCustomer.Application.Common.Interfaces;
 using GeminiCustomer.Infrastructure.Interceptors;
 using GeminiCustomer.Infrastructure.Persistence;
+using GeminiCustomer.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ public static class DependencyInjectionRegister
         });
 
         services.AddScoped<PublishDomainEventsInterceptor>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         return services;
     }

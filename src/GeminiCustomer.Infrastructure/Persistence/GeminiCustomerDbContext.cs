@@ -16,7 +16,7 @@ public sealed class GeminiCustomerDbContext : DbContext
         _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
     }
 
-    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Customer> Customers => Set<Customer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
