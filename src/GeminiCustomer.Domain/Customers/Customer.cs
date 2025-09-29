@@ -1,4 +1,6 @@
 using ErrorOr;
+using GeminiCustomer.Domain.Common.Enums;
+using GeminiCustomer.Domain.Common.Extensions;
 using GeminiCustomer.Domain.Common.Models;
 using GeminiCustomer.Domain.Customers.Entities;
 using GeminiCustomer.Domain.Customers.ValueObjects;
@@ -110,6 +112,14 @@ public sealed class Customer : AggregateRoot<CustomerId>
         string country,
         bool isDefault = false)
     {
+        // Parse the country string to CountryCode enum
+        if (!CountryCodeExtensions.TryParseCountry(country, out var countryCode))
+        {
+            return Error.Validation(
+                code: "Customer.Address.Country.Invalid",
+                description: $"'{country}' is not a valid country code or name.");
+        }
+
         // If this address should be default, unset the current default
         if (isDefault)
         {
@@ -127,7 +137,7 @@ public sealed class Customer : AggregateRoot<CustomerId>
             city: city,
             state: state,
             postCode: postCode,
-            country: country,
+            country: countryCode,
             isDefault: isDefault,
             createdAt: null, // Let Address.Create set the timestamp
             updatedAt: null);

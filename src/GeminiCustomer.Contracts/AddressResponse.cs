@@ -1,5 +1,8 @@
 namespace GeminiCustomer.Contracts;
 
+/// <summary>
+/// Address response with both country code and display name for frontend flexibility.
+/// </summary>
 public sealed record AddressResponse(
     Guid Id,
     Guid CustomerId,
@@ -8,5 +11,6 @@ public sealed record AddressResponse(
     string City,
     string State,
     string PostCode,
-    string Country
+    string CountryCode,
+    string CountryName
 );

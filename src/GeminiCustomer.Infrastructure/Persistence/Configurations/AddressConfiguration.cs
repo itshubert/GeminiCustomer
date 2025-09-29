@@ -44,8 +44,9 @@ public sealed class AddressConfiguration : IEntityTypeConfiguration<Address>
             .HasMaxLength(20);
 
         builder.Property(a => a.Country)
+            .HasConversion<string>()
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(2); // ISO country codes are 2 characters
 
         builder.Property(a => a.IsDefault)
             .IsRequired()

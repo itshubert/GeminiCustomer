@@ -18,6 +18,8 @@ public sealed class CustomerMappingConfig : IRegister
             .Map(dest => dest, src => src);
 
         config.NewConfig<AddressModel, AddressResponse>()
+            .Map(dest => dest.CountryCode, src => src.CountryCode.ToString())
+            .Map(dest => dest.CountryName, src => src.CountryName)
             .Map(dest => dest, src => src);
 
         config.NewConfig<CreateAddressRequest, AddAddressCommand>()

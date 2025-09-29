@@ -1,3 +1,5 @@
+using GeminiCustomer.Domain.Common.Enums;
+
 namespace GeminiCustomer.Application.Common.Models.Addresses;
 
 public sealed record AddressModel(
@@ -8,5 +10,6 @@ public sealed record AddressModel(
     string City,
     string State,
     string PostCode,
-    string Country
+    CountryCode CountryCode,
+    string CountryName
 );

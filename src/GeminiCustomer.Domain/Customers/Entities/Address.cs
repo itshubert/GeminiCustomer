@@ -1,4 +1,5 @@
 using ErrorOr;
+using GeminiCustomer.Domain.Common.Enums;
 using GeminiCustomer.Domain.Common.Models;
 using GeminiCustomer.Domain.Customers.ValueObjects;
 
@@ -12,7 +13,7 @@ public sealed class Address : Entity<AddressId>
     public string City { get; private set; }
     public string State { get; private set; }
     public string PostCode { get; private set; }
-    public string Country { get; private set; }
+    public CountryCode Country { get; private set; }
     public bool IsDefault { get; private set; }
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset? UpdatedAt { get; private set; }
@@ -25,7 +26,7 @@ public sealed class Address : Entity<AddressId>
         string city,
         string state,
         string postCode,
-        string country,
+        CountryCode country,
         bool isDefault,
         DateTimeOffset createdAt,
         DateTimeOffset? updatedAt)
@@ -50,7 +51,7 @@ public sealed class Address : Entity<AddressId>
         string city,
         string state,
         string postCode,
-        string country,
+        CountryCode country,
         bool isDefault,
         DateTimeOffset? createdAt,
         DateTimeOffset? updatedAt)
@@ -109,17 +110,11 @@ public sealed class Address : Entity<AddressId>
                 description: "Post code must not exceed 20 characters."));
         }
 
-        if (string.IsNullOrWhiteSpace(country))
+        if (!Enum.IsDefined(typeof(CountryCode), country))
         {
             errors.Add(Error.Validation(
-                code: "Address.Country.Empty",
-                description: "Country must not be empty."));
-        }
-        else if (country.Length > 50)
-        {
-            errors.Add(Error.Validation(
-                code: "Address.Country.TooLong",
-                description: "Country must not exceed 50 characters."));
+                code: "Address.Country.Invalid",
+                description: "Country must be a valid country code."));
         }
 
         if (errors.Count > 0)
