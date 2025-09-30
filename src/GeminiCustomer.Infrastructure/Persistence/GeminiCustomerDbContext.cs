@@ -1,4 +1,5 @@
 using GeminiCustomer.Domain.Customers;
+using GeminiCustomer.Domain.Users;
 using GeminiCustomer.Infrastructure.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public sealed class GeminiCustomerDbContext : DbContext
     }
 
     public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

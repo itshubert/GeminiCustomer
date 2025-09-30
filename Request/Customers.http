@@ -10,7 +10,22 @@ Content-Type: application/json
 {
     "firstName": "John",
     "lastName": "Doe",
-    "email": "john.doe@example.com"
+    "email": "john.doe@example.com",
+    "createUser": true,
+    "password": "SecurePassword123!"
+}
+
+###
+
+POST {{HostAddress}}/customers
+Content-Type: application/json
+
+{
+    "firstName": "Hubert",
+    "lastName": "Dumas",
+    "email": "hubert.dumas@example.com",
+    "createUser": true,
+    "password": "SecurePassword123!"
 }
 
 ### ADDRESS

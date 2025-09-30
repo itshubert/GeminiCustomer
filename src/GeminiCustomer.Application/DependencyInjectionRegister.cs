@@ -1,4 +1,6 @@
 ﻿using GeminiCustomer.Application.Common.Behaviors;
+using GeminiCustomer.Application.Common.Interfaces.Services;
+using GeminiCustomer.Application.Users.Services;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,8 @@ public static class DependencyInjectionRegister
         services.AddScoped(
             typeof(IPipelineBehavior<,>),
             typeof(ValidationBehavior<,>));
+
+        services.AddScoped<IUserService, UserService>();
 
         return services;
     }

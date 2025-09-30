@@ -3,6 +3,7 @@ using System;
 using GeminiCustomer.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GeminiCustomer.Infrastructure.Migrations
 {
     [DbContext(typeof(GeminiCustomerDbContext))]
-    partial class GeminiCustomerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250930042350_AddUsersTable")]
+    partial class AddUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,8 +150,7 @@ namespace GeminiCustomer.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("Username")
                         .IsUnique()
@@ -169,8 +171,8 @@ namespace GeminiCustomer.Infrastructure.Migrations
             modelBuilder.Entity("GeminiCustomer.Domain.Users.User", b =>
                 {
                     b.HasOne("GeminiCustomer.Domain.Customers.Customer", "Customer")
-                        .WithOne()
-                        .HasForeignKey("GeminiCustomer.Domain.Users.User", "CustomerId")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

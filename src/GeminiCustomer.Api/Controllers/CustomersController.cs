@@ -1,5 +1,7 @@
 using GeminiCustomer.Application.Customers.Commands;
+using GeminiCustomer.Application.Users.Commands;
 using GeminiCustomer.Contracts;
+using GeminiCustomer.Domain.Users;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,19 +29,49 @@ public sealed class CustomersController : ApiController
     [HttpPost]
     public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request)
     {
-        var command = Mapper.Map<Application.Customers.Commands.CreateCustomerCommand>(request);
-        var result = await Mediator.Send(command);
+        var command = Mapper.Map<CreateCustomerCommand>(request);
+        var customerResult = await Mediator.Send(command);
+        CreateCustomerResponse createResponse;
 
-        return result.Match(
-            customer =>
+        if (!customerResult.IsError && !request.CreateUser)
+        {
+            return customerResult.Match(
+                customer =>
+                {
+                    var customerResponse = Mapper.Map<CustomerResponse>(customer);
+                    createResponse = new CreateCustomerResponse(customerResponse, null);
+
+                    return CreatedAtAction(
+                        nameof(GetCustomerById),
+                        new { customerId = customerResponse.Id },
+                        createResponse);
+                },
+                Problem);
+        }
+
+        var createUserCommand = new CreateUserCommand(
+            customerResult.Value.Id,
+            request.Email,
+            request.Password ?? "DefaultPassword123!");
+
+        var userResult = await Mediator.Send(createUserCommand);
+
+        return userResult.Match(
+            user =>
             {
-                var customerResponse = Mapper.Map<CustomerResponse>(customer);
+                var userResponse = Mapper.Map<UserResponse>(user);
+                var customerResponse = Mapper.Map<CustomerResponse>(customerResult.Value);
+                createResponse = new CreateCustomerResponse(
+                    customerResponse,
+                    userResponse);
+
                 return CreatedAtAction(
                     nameof(GetCustomerById),
                     new { customerId = customerResponse.Id },
-                    customerResponse);
+                    createResponse);
             },
             Problem);
+
     }
 
     [HttpPost("{customerId:guid}/addresses")]

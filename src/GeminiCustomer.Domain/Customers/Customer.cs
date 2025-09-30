@@ -1,9 +1,9 @@
 using ErrorOr;
-using GeminiCustomer.Domain.Common.Enums;
 using GeminiCustomer.Domain.Common.Extensions;
 using GeminiCustomer.Domain.Common.Models;
 using GeminiCustomer.Domain.Customers.Entities;
 using GeminiCustomer.Domain.Customers.ValueObjects;
+using GeminiCustomer.Domain.Users.ValueObjects;
 
 namespace GeminiCustomer.Domain.Customers;
 
