@@ -8,8 +8,8 @@ POST {{HostAddress}}/customers
 Content-Type: application/json
 
 {
-    "firstName": "John",
-    "lastName": "Doe",
+    "firstName": "JohnT",
+    "lastName": "DoeT",
     "email": "john.doe@example.com",
     "createUser": true,
     "password": "SecurePassword123!"

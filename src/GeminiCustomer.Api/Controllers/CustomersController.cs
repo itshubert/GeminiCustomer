@@ -33,20 +33,20 @@ public sealed class CustomersController : ApiController
         var customerResult = await Mediator.Send(command);
         CreateCustomerResponse createResponse;
 
-        if (!customerResult.IsError && !request.CreateUser)
+        if (customerResult.IsError)
         {
-            return customerResult.Match(
-                customer =>
-                {
-                    var customerResponse = Mapper.Map<CustomerResponse>(customer);
-                    createResponse = new CreateCustomerResponse(customerResponse, null);
+            return Problem(customerResult.Errors);
+        }
 
-                    return CreatedAtAction(
+        if (!request.CreateUser)
+        {
+            var customerResponse = Mapper.Map<CustomerResponse>(customerResult.Value);
+            createResponse = new CreateCustomerResponse(customerResponse, null);
+
+            return CreatedAtAction(
                         nameof(GetCustomerById),
                         new { customerId = customerResponse.Id },
                         createResponse);
-                },
-                Problem);
         }
 
         var createUserCommand = new CreateUserCommand(

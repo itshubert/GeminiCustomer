@@ -7,6 +7,12 @@ using GeminiCustomer.Domain.Users.ValueObjects;
 
 namespace GeminiCustomer.Domain.Customers;
 
+public static class CustomerValidationConstants
+{
+    public const int MaxNameLength = 50;
+    public const int MaxEmailLength = 100;
+}
+
 public sealed class Customer : AggregateRoot<CustomerId>
 {
     private readonly List<Address> _addresses = new List<Address>();
@@ -44,55 +50,23 @@ public sealed class Customer : AggregateRoot<CustomerId>
     {
         var errors = new List<Error>();
 
-        if (string.IsNullOrWhiteSpace(firstName))
-        {
-            errors.Add(Error.Validation(
-                code: "Customer.FirstName.Empty",
-                description: "First name must not be empty."));
-        }
-        else if (firstName.Length > 50)
-        {
-            errors.Add(Error.Validation(
-                code: "Customer.FirstName.TooLong",
-                description: "First name must not exceed 50 characters."));
-        }
+        // Validate firstName
+        var firstNameValidation = ValidateName(firstName, "FirstName", CustomerValidationConstants.MaxNameLength);
+        if (firstNameValidation.IsError)
+            errors.AddRange(firstNameValidation.Errors);
 
-        if (string.IsNullOrWhiteSpace(lastName))
-        {
-            errors.Add(Error.Validation(
-                code: "Customer.LastName.Empty",
-                description: "Last name must not be empty."));
-        }
-        else if (lastName.Length > 50)
-        {
-            errors.Add(Error.Validation(
-                code: "Customer.LastName.TooLong",
-                description: "Last name must not exceed 50 characters."));
-        }
+        // Validate lastName
+        var lastNameValidation = ValidateName(lastName, "LastName", CustomerValidationConstants.MaxNameLength);
+        if (lastNameValidation.IsError)
+            errors.AddRange(lastNameValidation.Errors);
 
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            errors.Add(Error.Validation(
-                code: "Customer.Email.Empty",
-                description: "Email must not be empty."));
-        }
-        else if (email.Length > 100)
-        {
-            errors.Add(Error.Validation(
-                code: "Customer.Email.TooLong",
-                description: "Email must not exceed 100 characters."));
-        }
-        else if (!IsValidEmail(email))
-        {
-            errors.Add(Error.Validation(
-                code: "Customer.Email.Invalid",
-                description: "Email format is invalid."));
-        }
+        // Validate email
+        var emailValidation = ValidateEmail(email);
+        if (emailValidation.IsError)
+            errors.AddRange(emailValidation.Errors);
 
         if (errors.Count > 0)
-        {
             return errors;
-        }
 
         return new Customer(
             id: id ?? CustomerId.CreateUnique(),
@@ -179,7 +153,53 @@ public sealed class Customer : AggregateRoot<CustomerId>
         return Result.Success;
     }
 
-    private static bool IsValidEmail(string email)
+    private static ErrorOr<string> ValidateName(string name, string fieldName, int maxLength)
+    {
+        var errors = new List<Error>();
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            errors.Add(Error.Validation(
+                code: $"Customer.{fieldName}.Empty",
+                description: $"{fieldName} must not be empty."));
+        }
+        else if (name.Length > maxLength)
+        {
+            errors.Add(Error.Validation(
+                code: $"Customer.{fieldName}.TooLong",
+                description: $"{fieldName} must not exceed {maxLength} characters."));
+        }
+
+        return errors.Count > 0 ? errors : name;
+    }
+
+    private static ErrorOr<string> ValidateEmail(string email)
+    {
+        var errors = new List<Error>();
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            errors.Add(Error.Validation(
+                code: "Customer.Email.Empty",
+                description: "Email must not be empty."));
+        }
+        else if (email.Length > CustomerValidationConstants.MaxEmailLength)
+        {
+            errors.Add(Error.Validation(
+                code: "Customer.Email.TooLong",
+                description: $"Email must not exceed {CustomerValidationConstants.MaxEmailLength} characters."));
+        }
+        else if (!IsValidEmailFormat(email))
+        {
+            errors.Add(Error.Validation(
+                code: "Customer.Email.Invalid",
+                description: "Email format is invalid."));
+        }
+
+        return errors.Count > 0 ? errors : email;
+    }
+
+    private static bool IsValidEmailFormat(string email)
     {
         try
         {
