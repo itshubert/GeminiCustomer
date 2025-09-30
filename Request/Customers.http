@@ -28,6 +28,16 @@ Content-Type: application/json
     "password": "SecurePassword123!"
 }
 
+###
+
+POST {{HostAddress}}/customers/authenticate
+Content-Type: application/json
+
+{
+    "username": "hubert.dumas@example.com",
+    "password": "SecurePassword123!"
+}
+
 ### ADDRESS
 
 POST {{HostAddress}}/customers/9d48f911-9ab1-4132-832e-982b5c022f2e/addresses

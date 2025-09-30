@@ -74,6 +74,24 @@ public sealed class CustomersController : ApiController
 
     }
 
+    [HttpPost("authenticate")]
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticationRequest request)
+    {
+        var command = new AuthenticateUserCommand(request.Username, request.Password);
+        var result = await Mediator.Send(command);
+
+        return result.Match(
+            authResult => Ok(new UserResponse(
+                authResult.User.Id,
+                authResult.User.CustomerId,
+                authResult.User.Username,
+                authResult.User.IsActive,
+                authResult.User.Token,
+                authResult.User.RefreshToken,
+                authResult.User.TokenExpiry)),
+            Problem);
+    }
+
     [HttpPost("{customerId:guid}/addresses")]
     public async Task<IActionResult> AddAddress(Guid customerId, [FromBody] CreateAddressRequest request)
     {

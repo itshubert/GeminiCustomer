@@ -9,4 +9,5 @@ public interface IUserService
     Task<IEnumerable<User>> GetUsersForCustomerAsync(Guid customerId, CancellationToken cancellationToken = default);
     Task<User?> GetUserWithCustomerAsync(Guid userId, CancellationToken cancellationToken = default);
     Task<User?> GetUserByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default);
+    Task UpdateUserAsync(User user, CancellationToken cancellationToken = default);
 }

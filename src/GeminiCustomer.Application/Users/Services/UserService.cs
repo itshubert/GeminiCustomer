@@ -83,4 +83,9 @@ public class UserService : IUserService
         var users = await _userRepository.GetByCustomerIdAsync(customerId, cancellationToken);
         return users.FirstOrDefault();
     }
+
+    public async Task UpdateUserAsync(User user, CancellationToken cancellationToken = default)
+    {
+        await _userRepository.UpdateAsync(user, cancellationToken);
+    }
 }
