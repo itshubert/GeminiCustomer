@@ -1,5 +1,4 @@
 using ErrorOr;
-using GeminiCatalog.Domain.Common.DomainErrors;
 using GeminiCustomer.Application.Common.Interfaces;
 using GeminiCustomer.Application.Common.Models.Customers;
 using GeminiCustomer.Domain.Customers;
@@ -26,13 +25,6 @@ public sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCustome
 
     public async Task<ErrorOr<CustomerModel>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
-        var existingCustomer = _customerRepository.GetByEmailAsync(request.Email, cancellationToken).Result;
-
-        if (existingCustomer is not null)
-        {
-            return Errors.Customer.EmailAlreadyExists;
-        }
-
         var customer = Customer.Create(
             null,
             request.FirstName,

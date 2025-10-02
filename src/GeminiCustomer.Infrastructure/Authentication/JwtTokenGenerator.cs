@@ -28,10 +28,11 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()!),
+            new(JwtRegisteredClaimNames.Sub, user.Id.Value.ToString()),
             new(JwtRegisteredClaimNames.GivenName, user.Customer.FirstName),
             new(JwtRegisteredClaimNames.FamilyName, user.Customer.LastName),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new("customer_id", user.Customer.Id.Value.ToString())
         };
 
         // claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));

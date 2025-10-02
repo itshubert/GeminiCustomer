@@ -30,10 +30,6 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.HasIndex(c => c.Email)
-            .IsUnique()
-            .HasDatabaseName("IX_Customers_Email_Unique");
-
         builder.Property(c => c.CreatedAt)
             .IsRequired();
 
