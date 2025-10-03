@@ -1,6 +1,7 @@
-@HostAddress=https://localhost:4005
+#@HostAddress=https://localhost:4005
+@HostAddress=https://localhost:10001
 
-GET {{HostAddress}}/customers/22847b23-c97b-4e8d-90a9-66c1e805465b
+GET {{HostAddress}}/customers/2249262b-6641-4a28-b578-374701066274
 
 ###
 
