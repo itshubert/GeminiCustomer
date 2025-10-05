@@ -1,4 +1,5 @@
-﻿using GeminiCustomer.Application.Common.Behaviors;
+﻿using FluentValidation;
+using GeminiCustomer.Application.Common.Behaviors;
 using GeminiCustomer.Application.Common.Interfaces.Services;
 using GeminiCustomer.Application.Users.Services;
 using Mapster;
@@ -13,6 +14,8 @@ public static class DependencyInjectionRegister
     {
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
         services.AddMappings();
+
+        services.AddValidatorsFromAssembly(typeof(DependencyInjectionRegister).Assembly);
 
         services.AddScoped(
             typeof(IPipelineBehavior<,>),
