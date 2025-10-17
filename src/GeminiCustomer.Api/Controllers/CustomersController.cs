@@ -1,7 +1,6 @@
 using GeminiCustomer.Application.Customers.Commands;
 using GeminiCustomer.Application.Users.Commands;
 using GeminiCustomer.Contracts;
-using GeminiCustomer.Domain.Users;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

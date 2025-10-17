@@ -1,4 +1,4 @@
-#@HostAddress=https://localhost:4005
+#@HostAddress=http://localhost:4004
 @HostAddress=https://localhost:10001
 
 GET {{HostAddress}}/customers/2249262b-6641-4a28-b578-374701066274
@@ -36,12 +36,12 @@ Content-Type: application/json
 
 {
     "username": "hubert.dumas@example.com",
-    "password": "SecurePassword123!"
+    "password": "SecurePassword1234!"
 }
 
 ### ADDRESS
 
-POST {{HostAddress}}/customers/9d48f911-9ab1-4132-832e-982b5c022f2e/addresses
+POST {{HostAddress}}/customers/2249262b-6641-4a28-b578-374701066274/addresses
 Content-Type: application/json
 
 {
