@@ -29,12 +29,17 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseExceptionHandler("/error");
+app.UseExceptionHandler("/customers/error");
 // app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Health check endpoint for ECS
+app.MapGet("/customers/health", () => Results.Ok(new { status = "Healthy", timestamp = DateTime.UtcNow }))
+    .WithName("HealthCheck")
+    .WithTags("Health");
 
 app.Run();

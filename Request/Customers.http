@@ -1,5 +1,6 @@
 #@HostAddress=http://localhost:4004
-@HostAddress=https://localhost:10001
+#@HostAddress=https://localhost:10001
+@HostAddress=http://gemini-eda-alb-641893049.us-east-1.elb.amazonaws.com
 
 GET {{HostAddress}}/customers/2249262b-6641-4a28-b578-374701066274
 
