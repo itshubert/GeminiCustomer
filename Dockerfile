@@ -26,10 +26,21 @@ WORKDIR /app
 # Copy the published application from the build stage
 COPY --from=build-env /app/out .
 
+# Install essential debugging tools as root
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
+    iputils-ping \
+    telnet \
+    dnsutils \
+    net-tools \
+    wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
 # Create a non-root user for security
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
-
 
 # Set the entry point for the container
 ENTRYPOINT ["dotnet", "GeminiCustomer.Api.dll"]

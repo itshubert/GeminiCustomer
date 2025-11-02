@@ -1,6 +1,7 @@
-#@HostAddress=http://localhost:4004
+@HostAddress=http://localhost:4004
 #@HostAddress=https://localhost:10001
-@HostAddress=http://gemini-eda-alb-641893049.us-east-1.elb.amazonaws.com
+#@HostAddress=http://gemini-eda-alb-641893049.us-east-1.elb.amazonaws.com
+#@HostAddress=http://localhost:5000
 
 GET {{HostAddress}}/customers/2249262b-6641-4a28-b578-374701066274
 
@@ -25,7 +26,7 @@ Content-Type: application/json
 {
     "firstName": "Hubert",
     "lastName": "Dumas",
-    "email": "hubert.dumas@example.com",
+    "email": "hubertd@example.com",
     "createUser": true,
     "password": "SecurePassword123!"
 }
@@ -36,8 +37,8 @@ POST {{HostAddress}}/customers/authenticate
 Content-Type: application/json
 
 {
-    "username": "hubert.dumas@example.com",
-    "password": "SecurePassword1234!"
+    "username": "hubertd@example.com",
+    "password": "SecurePassword123!"
 }
 
 ### ADDRESS
@@ -57,7 +58,7 @@ Content-Type: application/json
 
 ### ADDRESS - Using full country name (also supported)
 
-POST {{HostAddress}}/customers/9d48f911-9ab1-4132-832e-982b5c022f2e/addresses
+POST {{HostAddress}}/customers/2249262b-6641-4a28-b578-374701066274/addresses
 Content-Type: application/json
 
 {
